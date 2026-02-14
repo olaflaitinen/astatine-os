@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: EUPL-1.2 -->
+﻿<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <!-- Copyright (c) 2026 Astatine OS Contributors -->
 
 # Governance
@@ -20,7 +20,7 @@
 
 | Name | Institutional affiliation | Governance assignment |
 | --- | --- | --- |
-| Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov | Department of Applied Mathematics and Computer Science (DTU Compute), Technical University of Denmark | Maintainer |
+| Gustav Olaf Yunus Laitinen-Fredriksson Lundstrom-Imanov | Department of Applied Mathematics and Computer Science (DTU Compute), Technical University of Denmark | Maintainer |
 | Derya Umut Kulali | Department of Engineering, Eskisehir Technical University | Reviewer |
 | Taner Yilmaz | Department of Computer Engineering, Afyon Kocatepe University | Reviewer |
 | Duygu Erisken | Department of Mathematics, Trakya University | Contributor |
@@ -74,3 +74,4 @@ Governance policy updates require:
 - issue proposal
 - maintainer review
 - explicit merge approval by maintainer quorum
+

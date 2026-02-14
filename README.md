@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: EUPL-1.2 -->
+﻿<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <!-- Copyright (c) 2026 Astatine OS Contributors -->
 
 # astatine-os
@@ -45,7 +45,7 @@
 Temperature anomaly regression proxy for tile `i`:
 
 $$
-\hat{\Delta T_i} =
+\widehat{\Delta T}_i =
 \alpha_1 \cdot \text{NDBI}_i
 - \alpha_2 \cdot \text{NDVI}_i
 + \alpha_3 \cdot \rho_i
@@ -58,7 +58,7 @@ $$
 Ventilation quality score:
 
 $$
-\hat{V_i} = \sigma
+\widehat{V}_i = \beta_0
 + \beta_1 \cdot SVF_i
 - \beta_2 \cdot AR_i
 - \beta_3 \cdot z_{0,i}
@@ -215,12 +215,19 @@ See `docs/reproducibility.md` for protocol-level details.
 
 | Name | Affiliation | Email | ORCID |
 | --- | --- | --- | --- |
-| Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov | Department of Applied Mathematics and Computer Science (DTU Compute), Technical University of Denmark, Kongens Lyngby, Denmark | oyli@dtu.dk | 0009-0006-5184-0810 |
-| Derya Umut Kulali | Department of Engineering, Eskisehir Technical University, Eskisehir, Türkiye | d_u_k@ogr.eskisehir.edu.tr | 0009-0004-8844-6601 |
-| Taner Yilmaz | Department of Computer Engineering, Afyon Kocatepe University, Afyonkarahisar, Türkiye | taner.yilmaz@usr.aku.edu.tr | 0009-0004-5197-5227 |
-| Duygu Erisken | Department of Mathematics, Trakya University, Edirne, Türkiye | duyguerisken@ogr.trakya.edu.tr | 0009-0002-2177-9001 |
+| Gustav Olaf Yunus Laitinen-Fredriksson Lundstrom-Imanov | Department of Applied Mathematics and Computer Science (DTU Compute), Technical University of Denmark, Kongens Lyngby, Denmark | oyli@dtu.dk | 0009-0006-5184-0810 |
+| Derya Umut Kulali | Department of Engineering, Eskisehir Technical University, Eskisehir, Turkiye | d_u_k@ogr.eskisehir.edu.tr | 0009-0004-8844-6601 |
+| Taner Yilmaz | Department of Computer Engineering, Afyon Kocatepe University, Afyonkarahisar, Turkiye | taner.yilmaz@usr.aku.edu.tr | 0009-0004-5197-5227 |
+| Duygu Erisken | Department of Mathematics, Trakya University, Edirne, Turkiye | duyguerisken@ogr.trakya.edu.tr | 0009-0002-2177-9001 |
 | Rana Irem Turhan | Department of Computer Systems, Riga Technical University, Riga, Latvia | rana-irem.turhan@edu.rtu.lv | 0009-0003-4748-9296 |
 | Ozkan Gunalp | Department of Medical Biology, Ege University, Izmir, Turkiye | ozkn.gunalp@gmail.com | 0009-0004-1437-1336 |
+
+
+## Release and PyPI automation
+
+- Tag-driven publishing is enabled via GitHub Actions Trusted Publishing.
+- Create a semantic version tag such as `v0.1.1` on `main` to trigger automatic build, verification, and PyPI upload.
+- Workflow source: `.github/workflows/release.yml`.
 
 ## Governance and contribution
 
@@ -240,3 +247,4 @@ See `docs/reproducibility.md` for protocol-level details.
   license = {EUPL-1.2}
 }
 ```
+

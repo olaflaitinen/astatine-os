@@ -24,5 +24,10 @@ nav:
       - Quickstart: tutorials/quickstart.md
 markdown_extensions:
   - admonition
+  - pymdownx.arithmatex:
+      generic: true
   - toc:
       permalink: true
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

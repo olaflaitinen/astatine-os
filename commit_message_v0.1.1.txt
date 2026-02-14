@@ -1,0 +1,28 @@
+Release v0.1.1: Enhanced Mathematical Rendering, Documentation Polish, and Automated PyPI Publishing
+
+This release introduces significant improvements to the documentation infrastructure, specifically targeting mathematical formula rendering, and establishes a robust, automated publishing pipeline for PyPI.
+
+Key Changes:
+
+1.  **Documentation & Rendering (`mkdocs.yml`, `docs/javascripts/mathjax.js`)**:
+    *   Integrated MathJax via a custom JavaScript configuration for superior formula rendering.
+    *   Enabled `pymdownx.arithmatex` extension to support advanced mathematical notation.
+    *   Corrected LaTeX syntax in core equations (e.g., `\widehat{\Delta T}_i`, `\beta_0`) to ensure precise rendering.
+
+2.  **CI/CD & Automation (`.github/workflows/release.yml`, `ci.yml`)**:
+    *   Architected a comprehensive `release.yml` workflow supporting:
+        *   Tag-based triggering (`v*`).
+        *   Manual `workflow_dispatch` inputs.
+        *   `release` event listener.
+    *   Implemented a multi-stage pipeline:
+        *   **Build**: Quality gates (lint, test, strict docs build), wheel/sdist construction, and SBOM generation.
+        *   **Publish-PyPI**: Secure, token-less upload via GitHub Actions Trusted Publishing (OIDC).
+        *   **Attest-and-Sign**: Provenance generation and Sigstore artifact signing.
+    *   Updated `ci.yml` dependency groups to include documentation extras (`.[dev,docs]`).
+
+3.  **Project Configuration (`pyproject.toml`, `README.md`)**:
+    *   Added `pymdown-extensions` to dependency groups.
+    *   Refined `README.md` to reflect the new install matrix and formula corrections.
+    *   Cleaned up contributor attribution and improved team listing formatting.
+
+This commit prepares the repository for immediate v0.1.1 release and automated distribution.

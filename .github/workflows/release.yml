@@ -5,20 +5,28 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish built artifacts to PyPI
+        required: false
+        default: false
+        type: boolean
   push:
     tags:
       - "v*"
+  release:
+    types:
+      - published
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build-test-publish:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/astatine-os
     permissions:
-      contents: write
-      id-token: write
-      attestations: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,35 +39,106 @@ jobs:
       - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[dev]
-          pip install build sigstore
+          pip install -e .[dev,docs]
+          pip install build twine cyclonedx-bom
 
-      - name: REUSE lint
-        run: python -m reuse lint
-
-      - name: Run tests and compliance checks
+      - name: Run quality gates
         run: |
+          python -m reuse lint
           ruff check .
+          ruff format --check .
+          black --check .
           mypy astatine_os tests
           pytest
           python tools/policy_check.py
+          python -m mkdocs build --strict
 
       - name: Build sdist and wheel
         run: python -m build
 
+      - name: Validate distributions
+        run: twine check dist/*
+
       - name: Generate SBOM
         run: cyclonedx-py environment -o sbom.cdx.json
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: dist/*
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cdx.json
+
+  publish-pypi:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: pypi
+      url: https://pypi.org/project/astatine-os/
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: dist
+
+      - name: Publish to PyPI via Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+
+  attest-and-sign:
+    needs:
+      - build
+      - publish-pypi
+    if: needs.publish-pypi.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: dist
+
+      - name: Download SBOM
+        uses: actions/download-artifact@v4
+        with:
+          name: sbom
+          path: .
 
       - name: Generate build provenance attestation
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: "dist/*"
 
-      - name: Sign artifacts with Sigstore
+      - name: Install Sigstore
+        run: python -m pip install --upgrade sigstore
+
+      - name: Sign artifacts with Sigstore bundles
         run: |
+          mkdir -p signatures
           for f in dist/*; do
-            sigstore sign "$f"
+            name="$(basename "$f")"
+            sigstore sign --bundle "signatures/$name.sigstore.bundle" "$f"
           done
 
-      - name: Publish to PyPI via Trusted Publishing
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Upload supply-chain artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: supply-chain-artifacts
+          path: |
+            sbom.cdx.json
+            signatures/*.sigstore.bundle
