@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Copyright (c) 2026 Astatine OS Contributors
+
+version = 1
+
+[[annotations]]
+path = [
+  ".mypy_cache/**",
+  ".pytest_cache/**",
+  ".ruff_cache/**",
+  "**/__pycache__/**",
+  "out/**",
+  "out_*/**",
+  "site/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Astatine OS Contributors"
+SPDX-License-Identifier = "EUPL-1.2"

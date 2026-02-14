@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Copyright (c) 2026 Astatine OS Contributors
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        language_version: python3.11
+  - repo: local
+    hooks:
+      - id: policy-check
+        name: policy-check-no-emdash-no-emoji
+        entry: python tools/policy_check.py
+        language: python
+        pass_filenames: false
+      - id: reuse-lint
+        name: reuse-lint
+        entry: python -m reuse lint
+        language: system
+        pass_filenames: false

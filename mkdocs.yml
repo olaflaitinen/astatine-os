@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Copyright (c) 2026 Astatine OS Contributors
+
+site_name: astatine-os
+site_description: Neighborhood-scale urban microclimate analysis library
+site_url: https://olaflaitinen.github.io/astatine-os
+repo_url: https://github.com/olaflaitinen/astatine-os
+repo_name: astatine-os
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.sections
+    - content.code.copy
+nav:
+  - Home: index.md
+  - API: api.md
+  - Methodology: methodology.md
+  - Data Sources: data_sources.md
+  - Licensing: licensing.md
+  - Reproducibility: reproducibility.md
+  - Tutorials:
+      - Quickstart: tutorials/quickstart.md
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
