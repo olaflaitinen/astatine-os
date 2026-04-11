@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Astatine OS Contributors
 
 [build-system]
-requires = ["hatchling>=1.24.0"]
+requires = ["hatchling>=1.29.0"]
 build-backend = "hatchling.build"
 
 [project]
